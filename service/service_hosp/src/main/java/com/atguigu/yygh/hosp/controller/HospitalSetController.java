@@ -3,6 +3,10 @@ package com.atguigu.yygh.hosp.controller;
 import com.atguigu.yygh.common.R;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.model.hosp.HospitalSet;
+import com.atguigu.yygh.vo.hosp.HospitalSetQueryVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -23,14 +27,103 @@ public class HospitalSetController {
     @GetMapping("findAll")
     public R findAll() {
         List<HospitalSet> list = hospitalSetService.list();
-        return R.ok().data("list",list);
+        return R.ok().data("list", list);
     }
 
     @ApiOperation(value = "医院设置删除")
     @DeleteMapping("{id}")
-    public R removeById(@ApiParam(name = "id", value = "讲师ID", required = true) @PathVariable String id){
+    public R removeById(@ApiParam(name = "id", value = "讲师ID", required = true) @PathVariable String id) {
         hospitalSetService.removeById(id);
         return R.ok();
+    }
+
+    @ApiOperation(value = "分页查询医院设置")
+    @GetMapping("{page}/{limit}")
+    public R pageList(@PathVariable Long page,
+                      @PathVariable Long limit) {
+        //1创建分页参数对象
+        Page<HospitalSet> pageParam = new Page<>(page, limit);
+        //2分页查询
+        Page<HospitalSet> pageModel = hospitalSetService.page(pageParam);
+        return R.ok().data("pageModel", pageModel);
+    }
+
+    @ApiOperation(value = "带分页带条件查询医院设置")
+    @PostMapping("pageQuery/{page}/{limit}")
+    public R pageList(@PathVariable Long page,
+                      @PathVariable Long limit,
+                      @RequestBody HospitalSetQueryVo hospitalSetQueryVo) {
+        //1获取参数，验空，存入查询条件构造器
+        String hosname = hospitalSetQueryVo.getHosname();
+        String hoscode = hospitalSetQueryVo.getHoscode();
+        QueryWrapper<HospitalSet> wrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(hosname)) {
+            wrapper.like("hosname", hosname);
+        }
+        if (!StringUtils.isEmpty(hoscode)) {
+            wrapper.eq("hoscode", hoscode);
+        }
+        //2创建分页参数对象
+        Page<HospitalSet> pageParam = new Page<>(page, limit);
+        //3分页查询
+        Page<HospitalSet> pageModel =
+                hospitalSetService.page(pageParam, wrapper);
+        return R.ok().data("pageModel", pageModel);
+    }
+
+    @ApiOperation(value = "新增医院设置")
+    @PostMapping("save")
+    public R save(@RequestBody HospitalSet hospitalSet) {
+        boolean save = hospitalSetService.save(hospitalSet);
+        if (save) {
+            return R.ok();
+        } else {
+            return R.error();
+        }
+    }
+
+    @ApiOperation(value = "根据id查询医院设置")
+    @GetMapping("getById/{id}")
+    public R getById(@PathVariable Long id) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        return R.ok().data("hospitalSet", hospitalSet);
+    }
+
+    @ApiOperation(value = "修改医院设置")
+    @PostMapping("update")
+    public R update(@RequestBody HospitalSet hospitalSet) {
+        boolean update = hospitalSetService.updateById(hospitalSet);
+        if (update) {
+            return R.ok();
+        } else {
+            return R.error();
+        }
+    }
+
+    @ApiOperation(value = "批量删除医院设置")
+    @DeleteMapping("batchRemove")
+    public R batchRemove(@RequestBody List<Long> idList) {
+        boolean remove = hospitalSetService.removeByIds(idList);
+        if (remove) {
+            return R.ok();
+        } else {
+            return R.error();
+        }
+    }
+
+    @PutMapping("lockHospitalSet/{id}/{status}")
+    public R lockHospitalSet(@PathVariable Long id,
+                             @PathVariable Integer status) {
+        //1先查询
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        //2后更新
+        hospitalSet.setStatus(status);
+        boolean update = hospitalSetService.updateById(hospitalSet);
+        if (update) {
+            return R.ok();
+        } else {
+            return R.error();
+        }
     }
 }
 
