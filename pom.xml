@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
+        <module>common</module>
         <module>model</module>
         <module>service</module>
-        <module>common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -24,8 +24,8 @@
         <cloud.version>Hoxton.RELEASE</cloud.version>
         <alibaba.version>2.2.0.RELEASE</alibaba.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
-        <mysql.version>5.1.46</mysql.version>
-<!--        <mysql.version>8.0.26</mysql.version>-->
+<!--        <mysql.version>5.1.46</mysql.version>-->
+        <mysql.version>8.0.26</mysql.version>
         <swagger.version>2.7.0</swagger.version>
         <jwt.version>0.7.0</jwt.version>
         <fastjson.version>1.2.29</fastjson.version>

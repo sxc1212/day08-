@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Api(description = "医院设置接口")
@@ -24,14 +26,32 @@ public class HospitalSetController {
     @Autowired
     private HospitalSetService hospitalSetService;
 
+    @ApiOperation(value = "模拟登陆")
+    @PostMapping("login")
+    public R login(){
+        return R.ok().data("token","admin-token");
+    }
+
+    @ApiOperation(value = "模拟获取用户信息")
+    @GetMapping("info")
+    public R info(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("roles","admin");
+        map.put("introduction","I am a super administrator");
+        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        map.put("name","Super Admin");
+        return R.ok().data(map);
+    }
+
+
     @ApiOperation(value = "医院设置列表")
     @GetMapping("findAll")
     public R findAll() {
-        try {
-            int a = 10/0;
-        }catch(Exception e) {
-            throw new GuliException(20001,"出现自定义异常");
-        }
+//        try {
+//            int a = 10/0;
+//        }catch(Exception e) {
+//            throw new GuliException(20001,"出现自定义异常");
+//        }
         List<HospitalSet> list = hospitalSetService.list();
         return R.ok().data("list", list);
     }
