@@ -1,6 +1,4 @@
 package com.atguigu.yygh.hosp.controller;
-
-import com.atguigu.yygh.common.GuliException;
 import com.atguigu.yygh.common.R;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.model.hosp.HospitalSet;
@@ -47,11 +45,6 @@ public class HospitalSetController {
     @ApiOperation(value = "医院设置列表")
     @GetMapping("findAll")
     public R findAll() {
-//        try {
-//            int a = 10/0;
-//        }catch(Exception e) {
-//            throw new GuliException(20001,"出现自定义异常");
-//        }
         List<HospitalSet> list = hospitalSetService.list();
         return R.ok().data("list", list);
     }

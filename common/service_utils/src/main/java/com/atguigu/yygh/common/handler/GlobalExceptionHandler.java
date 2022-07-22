@@ -1,7 +1,6 @@
 package com.atguigu.yygh.common.handler;
 
 
-import com.atguigu.yygh.common.GuliException;
 import com.atguigu.yygh.common.R;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,12 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
         public R error(ArithmeticException e){
             e.printStackTrace();
             return R.error().message("执行了自定义异常");
-        }
-        @ExceptionHandler(GuliException.class)
-        @ResponseBody
-        public R error(GuliException e){
-            e.printStackTrace();
-            return R.error().message(e.getMsg()).code(e.getCode());
         }
     }
 
