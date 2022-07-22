@@ -2,7 +2,6 @@ package com.atguigu.yygh.hosp.service.impl;
 
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.atguigu.yygh.common.handler.YyghException;
 import com.atguigu.yygh.hosp.repository.DepartmentRepository;
 import com.atguigu.yygh.hosp.service.DepartmentService;
