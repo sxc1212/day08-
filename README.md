@@ -27,4 +27,7 @@ npm run dev
 
 
 # 延伸阅读
-
+#mongodb配置
+spring.data.mongodb.uri=mongodb://192.168.136.136:27017/test
+# nacos服务地址
+spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848

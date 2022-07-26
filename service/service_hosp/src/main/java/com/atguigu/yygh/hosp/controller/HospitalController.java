@@ -15,7 +15,6 @@ import java.util.Map;
 @Api(description = "医院接口")
 @RestController
 @RequestMapping("/admin/hosp/hospital")
-@CrossOrigin
 public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
